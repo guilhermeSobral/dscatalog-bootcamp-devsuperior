@@ -8,8 +8,12 @@ public class CategoryDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long id;
-	private String name;
+	private String name;	
 	
+	public CategoryDTO(String name) {
+		this.name = name;
+	}
+
 	public CategoryDTO(Long id, String name) {
 		this.id = id;
 		this.name = name;
