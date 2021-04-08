@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.Instant;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -15,6 +16,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.devsuperior.dscatalog.dto.CategoryDTO;
+import com.devsuperior.dscatalog.dto.ProductDTO;
 
 @Entity
 @Table(name = "tb_product")
@@ -51,6 +55,25 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 		this.date = date;
 	}
+	
+	public Product(ProductDTO dto) {
+		this.name = dto.getName();
+		this.description = dto.getDescription();
+		this.price = dto.getPrice();
+		this.imgUrl = dto.getImgUrl();
+		this.date = dto.getDate();
+		saveCategories(dto.getCategories());
+	}
+	
+	public Product(Long id, ProductDTO dto) {
+		this.id = id;
+		this.name = dto.getName();
+		this.description = dto.getDescription();
+		this.price = dto.getPrice();
+		this.imgUrl = dto.getImgUrl();
+		this.date = dto.getDate();
+		saveCategories(dto.getCategories());
+	}
 
 	public Long getId() {
 		return id;
@@ -80,6 +103,9 @@ public class Product implements Serializable {
 		return Collections.unmodifiableSet(categories);
 	}
 	
-	
+	private void saveCategories(List<CategoryDTO> categories) {
+		this.categories.clear();
+		categories.forEach(category -> this.categories.add(new Category(category.getId(), category.getName())));
+	}
 
 }
