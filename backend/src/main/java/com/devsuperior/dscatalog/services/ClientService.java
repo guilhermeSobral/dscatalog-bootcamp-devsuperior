@@ -3,8 +3,6 @@ package com.devsuperior.dscatalog.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -55,10 +53,10 @@ public class ClientService {
 			var entity = repository.getOne(id);
 			var update = new Client(entity.getId(), dto);
 			return new ClientDTO(repository.save(update));
-		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundException(String.format("Id not found: %d", id));
 		}
-		
+		catch (Exception e) {
+			throw new ResourceNotFoundException("Id not found " + id);
+		}	
 	}
 	
 	public void delete(Long id) {

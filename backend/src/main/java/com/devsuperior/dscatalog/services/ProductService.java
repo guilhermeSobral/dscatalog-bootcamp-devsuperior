@@ -3,8 +3,6 @@ package com.devsuperior.dscatalog.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -54,7 +52,7 @@ public class ProductService {
 			var entity = repository.getOne(id);
 			var update = new Product(entity.getId(), dto);
 			return new ProductDTO(repository.save(update));
-		} catch (EntityNotFoundException e) {
+		} catch (Exception e) {
 			throw new ResourceNotFoundException(String.format("Id not found: %d", id));
 		}
 		
