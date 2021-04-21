@@ -18,21 +18,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.devsuperior.dscatalog.dto.ProductDTO;
-import com.devsuperior.dscatalog.services.ProductService;
+import com.devsuperior.dscatalog.dto.UserDTO;
+import com.devsuperior.dscatalog.services.UserService;
 
 @RestController
-@RequestMapping("/products")
-public class ProductResource {
+@RequestMapping("/users")
+public class UserResource {
 	
 	@Autowired
-	private ProductService service;
+	private UserService service;
 	
 	@GetMapping
-	public ResponseEntity<Page<ProductDTO>> findAll(
+	public ResponseEntity<Page<UserDTO>> findAll(
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			@RequestParam(value = "linesPerPage", defaultValue = "12") Integer linesPerPage,
-			@RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
+			@RequestParam(value = "orderBy", defaultValue = "firstName") String orderBy,
 			@RequestParam(value = "direction", defaultValue = "ASC") String direction
 		) {
 		var pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
@@ -42,13 +42,13 @@ public class ProductResource {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+	public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
 		var entity = service.findById(id);
 		return ResponseEntity.ok().body(entity);
 	}
 	
 	@PostMapping
-	public ResponseEntity<ProductDTO> insert(@Valid @RequestBody ProductDTO dto) {
+	public ResponseEntity<UserDTO> insert(@Valid @RequestBody UserDTO dto) {
 		dto = service.insert(dto);
 		var uri = ServletUriComponentsBuilder
 				.fromCurrentRequest()
@@ -59,7 +59,7 @@ public class ProductResource {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<ProductDTO> update(@PathVariable Long id, @Valid @RequestBody ProductDTO dto) {
+	public ResponseEntity<UserDTO> update(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
 		var entity = service.update(id, dto);
 		return ResponseEntity.ok().body(entity);
 	}
